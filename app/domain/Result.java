@@ -5,9 +5,7 @@ package domain;
 import java.net.URI;
 import java.util.Date;
 
-/**
- * Created by Manthan_personal on 7/30/17.
- */
+
 public class Result {
 
     private String title;
