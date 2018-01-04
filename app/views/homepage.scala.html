@@ -1,0 +1,104 @@
+@(jsonData: String, buildVersion: String, optimizedPath: String)
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+    <head>
+        <title>Pingup Dashboard</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link rel="stylesheet" href="/resources/stylesheets/bootstrap.min.css?bust=@Html(buildVersion)">
+        <link rel="stylesheet" href="/resources/stylesheets/bootstrapSelect.css?bust=@Html(buildVersion)">
+        <link rel="stylesheet" href="/resources/stylesheets/font-awesome-4.6.3.min.css?bust=@Html(buildVersion)">
+        <link rel="stylesheet" media="screen" href="/resources/stylesheets/portal.css?bust=@Html(buildVersion)"/>
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    </head>
+    <body>
+        <script type="text/javascript"  src="/resources/javascripts/require.js?bust=@Html(buildVersion)"></script>
+        <script type="text/javascript">
+        window.Tether={};
+        var jsonData=@Html(jsonData);
+        var contextRoot="/";
+        require.config({
+            baseUrl:contextRoot,
+            configuration:{
+                contextRoot:contextRoot,
+                jsonData:jsonData
+            },
+            paths : {
+                underscore 	            : 'resources/js/underscore',
+                backbone 	            : 'resources/js/backbone-min',
+                marionette 	            : 'resources/js/marionette-3.0.0',
+                'backbone.radio'        : 'resources/js/backbone.radio',
+                jquery 		            : 'resources/js/jquery-2.1.3',
+                jqueryUI 	            : 'resources/js/jquery-ui',
+                d3 			            : 'resources/js/d3',
+                pu 	                    : 'resources/js/com/pu',
+                handlebars 	            : 'resources/js/handlebars',
+                highCharts 	            : 'resources/js/highCharts-4.2.3',
+                hbs 		            : 'resources/js/hbs',
+                jsencrypt               : 'resources/js/jsencrypt',
+                bootstrapSelect         : 'resources/js/bootstrapSelect',
+                bootstrap               : 'resources/js/bootstrap',
+                moment                  : 'resources/js/moment',
+                'moment-tz'             : 'resources/js/moment-tz',
+                fields                  : 'resources/js/com/pu/formBuilder/fields',
+                tether                  : 'resources/js/tetherWrapper',
+                'tether.min'            : 'resources/js/tether.min',
+                'bootstrap4.0.0-alpha'  : 'resources/js/bootstrap4.0.0-alpha',
+                stripe                  : 'https://js.stripe.com/v3/?noext'
+            },
+            shim : {
+                bootstrap : {
+                    deps : ["tether","jquery"]
+                },
+                bootstrapSelect : {
+                    deps : ["bootstrap"]
+                },
+                underscore : {
+                    exports : '_'
+                },
+                d3 : {
+                    exports : 'd3'
+                },
+                highCharts :{
+                    exports : 'Highcharts'
+                },
+                jquery : {
+                    exports : "$"
+                },
+                jqueryUI : {
+                    exports : "$",
+                    deps : [ "jquery" ]
+                },
+                backbone : {
+                    deps : [ "underscore", "jquery" ],
+                    exports : "Backbone"
+                },
+                marionette : {
+                    deps : [ "backbone" ],
+                    exports : "Marionette"
+                },
+                stripe : {
+                    exports: "Stripe"
+                }
+            },
+            hbs : {
+                helpers : true,
+                templateExtension : 'hbs', // default: 'hbs'
+                partialsUrl : '' // default: ''
+            },
+            @if(buildVersion!=null) {
+            urlArgs: "bust=@Html(buildVersion)"
+            }else{
+            urlArgs: "bust=" +  (new Date()).getTime()
+            }
+        });
+        @if(optimizedPath!=null) {
+        require(['@Html(optimizedPath)'],function(everything){
+            require(['']);
+        });
+        }else{
+        require(['/resources/javascripts/bootstrap']);
+        }
+        </script>
+
+    </body>
+</html>
